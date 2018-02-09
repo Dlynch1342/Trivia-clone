@@ -12,9 +12,9 @@ class UsernameScreen extends Component {
 
 	onButtonPress() {
 		const { username } = this.props.nickname;
+		console.log( {username });
 
 		this.props.usernameSave({ username });
-		this.props.navigation.navigate('dashboard');
 	}
 
 	render() {
@@ -31,9 +31,10 @@ class UsernameScreen extends Component {
 						onChangeText={this.onUsernameInput.bind(this)}
 					/>
 				</View>
-				<View>
+				<View style={{ marginTop: 20 }}>
 					<Button
 						title='SAVE'
+						backgroundColor='#03A9F4'
 						onPress={this.onButtonPress.bind(this)}
 					/>
 				</View>

@@ -16,9 +16,9 @@ class LoginScreen extends Component {
 
 	onButtonPress() {
 		const { email, password } = this.props.login;
+		console.log({ email, password });
 
 		this.props.userLogin({ email, password });
-		this.props.navigation.navigate('username');	
 	}
 	
 	render() {
@@ -52,6 +52,7 @@ class LoginScreen extends Component {
 				<View style={{ marginTop: 20 }}>
 					<Button
 						title='LOGIN'
+						backgroundColor='#03A9F4'
 						onPress={this.onButtonPress.bind(this)}
 					/>
 				</View>

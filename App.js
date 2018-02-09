@@ -8,9 +8,7 @@ import { TabNavigator, StackNavigator } from 'react-navigation';
 
 
 import reducers from './src/reducers';
-import LoginScreen from './src/screens/LoginScreen';
-import UsernameScreen from './src/screens/UsernameScreen';
-import DashboardScreen from './src/screens/DashboardScreen';
+import Router from './router';
 
 export default class App extends React.Component {
 	componentWillMount() {
@@ -24,29 +22,13 @@ export default class App extends React.Component {
     };
     firebase.initializeApp(config);
 	}
-	
+
   render() {
 		const store = createStore(reducers, {}, applyMiddleware(ReduxThunk));
-
-		const MainNavigator = TabNavigator({
-      login: { screen: LoginScreen },
-      username: { screen: UsernameScreen },
-      main: {
-        screen: TabNavigator({
-          dashboard: { screen: DashboardScreen }
-        })
-      } 
-    }, {
-      navigationOptions: {
-        tabBarVisible: false
-      }
-		});
 		
     return (
 			<Provider store={store}>
-				<View style={styles.container}>
-					<MainNavigator />
-				</View>
+				<Router />
 			</Provider>
     );
   }

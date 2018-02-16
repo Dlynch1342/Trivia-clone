@@ -7,6 +7,7 @@ import { Actions } from 'react-native-router-flux';
 import firebase from 'firebase';
 
 // RELATIVE
+//Test
 import * as actions from '../actions'; 
 
 class DashboardScreen extends Component {

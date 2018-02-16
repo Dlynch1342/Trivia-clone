@@ -12,9 +12,10 @@ export const usernameInput = (text) => {
 
 export const usernameSave = ({ username }) => {
 	const { currentUser } = firebase.auth();
-	console.log({ currentUser }, 'username');
 
 	return (dispatch) => {
+		firebase.database().ref(`usernameList/${currentUser.uid}`).set({ username });
+		
 		firebase.database().ref(`users/${currentUser.uid}`).set({ username })
 			.then(() => {dispatch({ type: USERNAME_SAVE });
 			Actions.main();
@@ -22,12 +23,16 @@ export const usernameSave = ({ username }) => {
 	};
 };
 
+const usernamelistsave = (data) => {
+	firebase.database().ref(`usernaemList/${currentUser.uid}`).set(data);
+}
+
 export const usernameFetch = () => {
 	const { currentUser } = firebase.auth();
 
 	return (dispatch) => {
 		firebase.database().ref(`users/${currentUser.uid}`)
-			.on('value', snap => {
+			.once('value', snap => {
 				dispatch({ type: FETCH_USERNAME, payload: snap.val() });
 			});
 	};

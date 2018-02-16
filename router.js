@@ -4,6 +4,7 @@ import { Scene, Router, Actions } from 'react-native-router-flux';
 import LoginScreen from './src/screens/LoginScreen';
 import UsernameScreen from './src/screens/UsernameScreen';
 import DashboardScreen from './src/screens/DashboardScreen';
+import LeaderboardScreen from './src/screens/LeaderboardScreen';
 
 const RouterComponent = () => {
 	return (
@@ -18,14 +19,13 @@ const RouterComponent = () => {
 				<Scene key='main'>
 					<Scene 
 							// rightTitle='Add'
-							// onRight={() => Actions.employeeAdd()}
+							// onRight={() => Actions.leaderboard()}
 							key='dashboard' 
 							component={DashboardScreen} 
 							title='Welcome'
 							initial 
 					/>
-					{/* <Scene key='employeeAdd' component={EmployeeCreate} title='Add a New Asshole' />
-					<Scene key='employeeEdit' component={EmployeeEdit} title='Edit this Asshole' /> */}
+					<Scene key='leaderboard' component={LeaderboardScreen} title='Check it out!' />
 				</Scene>
 			</Scene>
 		</Router>

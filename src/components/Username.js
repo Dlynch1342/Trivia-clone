@@ -1,10 +1,11 @@
+// ABSOLUTE
 import firebase from 'firebase';
-
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, ImageBackground, Dimensions } from 'react-native';
 import { FormLabel, FormInput, Button, FormValidationMessage } from 'react-native-elements';
 import { connect } from 'react-redux';
 
+// RELATIVE
 import * as actions from '../actions'; 
 
 class UsernameScreen extends Component {

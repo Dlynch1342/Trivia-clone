@@ -1,6 +1,8 @@
+// ABSOLUTE
 import firebase from 'firebase';
 import { Actions } from 'react-native-router-flux';
 
+// RELATIVE
 import { USERNAME_INPUT, USERNAME_SAVE, FETCH_USERNAME } from './types';
 
 export const usernameInput = (text) => {

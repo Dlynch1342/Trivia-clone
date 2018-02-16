@@ -1,3 +1,4 @@
+// ABSOLUTE
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
 import { Card, Button } from 'react-native-elements';
@@ -5,6 +6,7 @@ import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 import firebase from 'firebase';
 
+// RELATIVE
 import * as actions from '../actions'; 
 
 class DashboardScreen extends Component {

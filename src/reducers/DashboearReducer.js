@@ -1,3 +1,4 @@
+// RELATIVE
 import { FETCH_USERNAME } from '../actions/types';
 
 const INITIAL_STATE = {}

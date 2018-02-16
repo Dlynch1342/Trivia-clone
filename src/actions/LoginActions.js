@@ -1,6 +1,8 @@
+// ABSOLUTE
 import firebase from 'firebase';
 import { Actions } from 'react-native-router-flux';
 
+// RELATIVE
 import { EMAIL_INPUT, PASSWORD_INPUT, LOGIN_SUCCESS, LOGIN_FAIL } from './types';
 
 export const emailInput = (text) => {

@@ -1,3 +1,4 @@
+// RELATIVE
 import { USERNAME_INPUT, USERNAME_SAVE } from '../actions/types';
 
 const INITIAL_STATE = {

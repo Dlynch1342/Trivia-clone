@@ -11,7 +11,7 @@ class DashboardScreen extends Component {
 	componentWillMount() {
 		this.props.usernameFetch();
 		this.props.getWeek();
-		this.props.getTotal()
+		this.props.getTotal();
 	}
 
 	componentWillReceiveProps(nextProps) {

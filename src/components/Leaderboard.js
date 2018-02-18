@@ -14,7 +14,11 @@ import * as actions from '../actions';
 class Rank extends Component {
     constructor(props) {
         super(props)
+<<<<<<< HEAD
         this.state = { page: 'Week' };
+=======
+        this.state = { page: 'Week' }
+>>>>>>> 419bcea95172595732f0e8e737104e3503d5b7bf
     }
     
     isActive = (data) => {
@@ -35,6 +39,7 @@ class Rank extends Component {
 
     getList = () => {
         if ( this.state.page === 'Week') {
+            console.log('b')
             var list = this.props.rank.week;
         } else {
             var list = this.props.rank.total;

@@ -4,11 +4,12 @@ import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import ReduxThunk from 'redux-thunk';
 import firebase from 'firebase';
+import ontime from 'ontime'
 
 import reducers from './src/reducers';
 import Router from './router';
 
-export default class App extends React.Component {
+export default class App extends React.Component {  
 	componentWillMount() {
 		const config = {
       apiKey: "AIzaSyDqYuLYEHSeiO0PrT4zPWornW7mHX8uP80",
@@ -19,6 +20,22 @@ export default class App extends React.Component {
       messagingSenderId: "308224065203"
     };
     firebase.initializeApp(config);
+
+
+    gameStart = (text) => {
+      console.log(text)
+      this.props.beginGame(text)
+    }
+
+    ontime({
+      cycle: ['13:54:00'],
+      single: false
+    }, function (ot) {
+      console.log('it is game time', ot)
+      gameStart(true)
+      ot.done()
+      return
+    })
 	}
 
   render() {

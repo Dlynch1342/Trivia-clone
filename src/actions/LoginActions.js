@@ -36,7 +36,6 @@ const loginSuccess1 = (dispatch, user) => {
 		type: LOGIN_SUCCESS,
 		payload: user
 	});
-
 	Actions.main();
 }
 
@@ -45,7 +44,6 @@ const loginSuccess2 = (dispatch, user) => {
 		type: LOGIN_SUCCESS,
 		payload: user
 	});
-
 	Actions.username();
 }
 

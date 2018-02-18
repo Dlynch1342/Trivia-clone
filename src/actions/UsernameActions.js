@@ -31,9 +31,8 @@ const usernamelistsave = (data) => {
 
 export const usernameFetch = () => {
 	const { currentUser } = firebase.auth();
-
 	return (dispatch) => {
-		firebase.database().ref(`users/${currentUser.uid}`)
+		firebase.database().ref(`users/${currentUser.uid}/username`)
 			.once('value', snap => {
 				dispatch({ type: FETCH_USERNAME, payload: snap.val() });
 			});

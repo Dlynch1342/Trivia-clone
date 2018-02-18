@@ -63,11 +63,6 @@ componentWillReceiveProps(nextProps) {
     }
 }
 
-const mapStateToProps = state => {
-    console.log(state)
-    return { lobby: state.lobby }
-}
-
 const styles = {
     container: {
         flex: 1,
@@ -87,6 +82,11 @@ const styles = {
         marginTop: 30,
         fontFamily: "Copperplate"
     }
+}
+
+const mapStateToProps = state => {
+    console.log(state)
+    return { lobby: state.lobby }
 }
 
 export default connect(mapStateToProps, actions )(Lobby);

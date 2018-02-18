@@ -14,7 +14,7 @@ export default (state = INITIAL_STATE, action) => {
 		case PASSWORD_INPUT:
 			return {...state, password: action.payload};
 		case LOGIN_SUCCESS:
-			return {...state, ...INITIAL_STATE, user: action.payload};
+			return {...state, user: action.payload};
 		case LOGIN_FAIL:
 			return console.log('fail');
 

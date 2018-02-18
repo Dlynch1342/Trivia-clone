@@ -18,8 +18,6 @@ class LoginScreen extends Component {
 
 	onButtonPress() {
 		const { email, password } = this.props.login;
-		// console.log({ email, password });
-
 		this.props.userLogin({ email, password });
 	}
 	

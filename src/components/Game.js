@@ -18,7 +18,7 @@ class Game extends Component {
         }
     }
     componentWillMount() {
-        // this.props.getQuestion('question_01')
+        this.props.getQuestion('question_01')
         const { currentUser } = firebase.auth();
 
         const amOnline = firebase.database().ref(".info/connected");

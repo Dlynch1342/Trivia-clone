@@ -4,16 +4,14 @@ import { combineReducers } from 'redux';
 // RELATIVE
 import LoginReducer from './LoginReducer';
 import UsernameReducer from './UsernameReducer';
-import DashboardReducer from './DashboardReducer';
 import LeaderboardReducer from './LeaderboardReducer';
 import LobbyReducer from './LobbyReducer';
-import GameStartReducer from './GameStartReducer';
+import GameReducer from './GameReducer';
 
 export default combineReducers({
-	game: GameStartReducer,
+	game: GameReducer,
 	login: LoginReducer,
-	nickname: UsernameReducer,
-	dashboard: DashboardReducer,
+	username: UsernameReducer,
 	rank: LeaderboardReducer,
 	lobby: LobbyReducer
 });

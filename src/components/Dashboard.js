@@ -1,13 +1,10 @@
-// ABSOLUTE
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
 import { Card, Button } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 import firebase from 'firebase';
-
 // RELATIVE
-//Test
 import * as actions from '../actions'; 
 
 class DashboardScreen extends Component {
@@ -94,7 +91,7 @@ class DashboardScreen extends Component {
 }
 
 const mapStateToProps = state => {
-	return { info: state.dashboard, game: state.game }
+	return { login: state.login, info: state.username, game: state.game }
 }
 
 export default connect(mapStateToProps, actions)(DashboardScreen);

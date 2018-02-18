@@ -16,14 +16,6 @@ class Rank extends Component {
         super(props)
         this.state = { page: 'Week' };
     }
-
-    // componentWillMount() {
-        
-    // }
-
-    // componentDidMount() {
-    //     if(this.state.page == null){this.setState({ page: 'Week' })};
-    // }
     
     isActive = (data) => {
         if (this.state.page === data) {

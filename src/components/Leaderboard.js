@@ -14,17 +14,16 @@ import * as actions from '../actions';
 class Rank extends Component {
     constructor(props) {
         super(props)
-        this.state = { page: null };
+        this.state = { page: 'Week' };
     }
 
-    componentWillMount() {
-        this.props.getWeek();
-        this.props.getTotal()
-    }
+    // componentWillMount() {
+        
+    // }
 
-    componentDidMount() {
-        if(this.state.page == null){this.setState({ page: 'Week' })};
-    }
+    // componentDidMount() {
+    //     if(this.state.page == null){this.setState({ page: 'Week' })};
+    // }
     
     isActive = (data) => {
         if (this.state.page === data) {

@@ -7,29 +7,51 @@ import { Actions } from 'react-native-router-flux';
 import firebase from 'firebase';
 
 // RELATIVE
+//Test
 import * as actions from '../actions'; 
 
 class DashboardScreen extends Component {
 	componentWillMount() {
-		console.log(this.props.info);
 		this.props.usernameFetch();
+		this.props.getWeek();
+		this.props.getTotal()
 	}
 
 	componentWillReceiveProps(nextProps) {
 		console.log(nextProps);
+	}
+	
+	renderJoin = () => {
+		// render() {
+			if (this.props.game.gameStart === true) {
+				return (
+					<View style={{ marginTop: 10 }}>
+						<Button
+							title='JOIN'
+							backgroundColor='#03A9F4'
+							onPress={() => Actions.start()}
+						/>
+					</View>
+				)
+			} else {
+				return (
+					<View style={{
+						marginTop: 10,
+						alignItems: 'center',
+						justifyContent: 'center'
+					}}>
+						<Text>The Game Will Begin at 9PM </Text>
+					</View>
+				)
+			}	
+		// }
 	}
 
 	render() {
 		return (
 			<View>
 				<Card style={{ marginTop: 20 }}>
-					<View style={{ marginTop: 10 }}>
-						<Button
-							title='JOIN'
-							backgroundColor='#03A9F4'
-							onPress={() => {}}
-						/>
-					</View>
+					{this.renderJoin()}
 					<View style={{ 
 						marginTop: 10,
 						alignItems: 'center',
@@ -72,7 +94,7 @@ class DashboardScreen extends Component {
 }
 
 const mapStateToProps = state => {
-	return { info: state.dashboard }
+	return { info: state.dashboard, game: state.game }
 }
 
 export default connect(mapStateToProps, actions)(DashboardScreen);

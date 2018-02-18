@@ -16,3 +16,9 @@ export const USER_RESPONSE = 'user_response';
 // RANKS
 export const GET_WEEK = 'get_week';
 export const GET_TOTAL = 'get_total';
+
+//BANNERS
+export const GOT_BANNERS = 'got_banners';
+
+//GAME
+export const GAME_START = 'game_start';

@@ -14,16 +14,7 @@ import * as actions from '../actions';
 class Rank extends Component {
     constructor(props) {
         super(props)
-        this.state = { page: null };
-    }
-
-    componentWillMount() {
-        this.props.getWeek();
-        this.props.getTotal()
-    }
-
-    componentDidMount() {
-        if(this.state.page == null){this.setState({ page: 'Week' })};
+        this.state = { page: 'Week' }
     }
     
     isActive = (data) => {
@@ -44,6 +35,7 @@ class Rank extends Component {
 
     getList = () => {
         if ( this.state.page === 'Week') {
+            console.log('b')
             var list = this.props.rank.week;
         } else {
             var list = this.props.rank.total;

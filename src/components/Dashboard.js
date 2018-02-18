@@ -11,8 +11,9 @@ import * as actions from '../actions';
 
 class DashboardScreen extends Component {
 	componentWillMount() {
-		console.log(this.props.info);
 		this.props.usernameFetch();
+		this.props.getWeek()
+		this.props.getTotal()
 	}
 
 	componentWillReceiveProps(nextProps) {

@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import ImagePicker from 'react-native-image-picker';
 import { View, Text, FlatList, ListItem, TouchableOpacity, Platform, Image, ActivityIndicator } from 'react-native';
 import { FormLabel, FormInput, Card, Button } from 'react-native-elements';
 import { connect } from 'react-redux';
@@ -11,7 +10,6 @@ import * as actions from '../actions';
 class Game extends Component {
     constructor(props) {
         super(props)
-
         this.state = {
             count: 0,
             uploadURL: ''
@@ -46,8 +44,8 @@ class Game extends Component {
     }
 
     render() {
-        if (this.props.dash.question) {
-            const { question } = this.props.dash;
+        if (this.props.game.question) {
+            const { question } = this.props.game;
             const keys = _.keys(question.user_answers);
             const values = _.values(question.user_answers);
 
@@ -124,7 +122,7 @@ const styles = {
 }
 
 const mapStateToProps = state => {
-    return { info: state.info, login: state.login, dash: state.dashboard }
+    return { info: state.info, login: state.login, game: state.game }
 }
 
 export default connect(mapStateToProps, actions)(Game);

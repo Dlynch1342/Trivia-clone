@@ -25,7 +25,7 @@ export const getQuestion = (question) => {
     return (dispatch) => {
         const ref = firebase.database().ref(`questions/20180326/${q}`);
         ref.once('value')
-            .then(snapshot => {
+        .then(snapshot => {
                 dispatch({ type: GOT_QUESTION, payload: snapshot.val() })
             })
     };
@@ -34,13 +34,13 @@ export const getQuestion = (question) => {
 export const respond = (data) => {
     const user = firebase.auth().currentUser.uid;
     return (dispatch) => {
-        if (String(data) === 'option_1') {
+        if (data === 'option_1') {
             firebase.database().ref('user_answers/option_1').push({ uid: user, response: data })
             dispatch({ type: USER_RESPONSE, payload: data })
-        } if (String(data) === 'option_2') {
+        } if (data === 'option_2') {
             firebase.database().ref('user_answers/option_2').push({ uid: user, response: data })
             dispatch({ type: USER_RESPONSE, payload: data })
-        } else {
+        } else if (data === 'option_3') {
             firebase.database().ref('user_answers/option_3').push({ uid: user, response: data })
             dispatch({ type: USER_RESPONSE, payload: data })
         }

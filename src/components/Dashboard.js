@@ -13,35 +13,29 @@ class DashboardScreen extends Component {
 		this.props.getWeek();
 		this.props.getTotal();
 	}
-
-	componentWillReceiveProps(nextProps) {
-		console.log(nextProps);
-	}
 	
 	renderJoin = () => {
-		// render() {
-			if (this.props.game.gameStart === true) {
-				return (
-					<View style={{ marginTop: 10 }}>
-						<Button
-							title='JOIN'
-							backgroundColor='#03A9F4'
-							onPress={() => Actions.start()}
-						/>
-					</View>
-				)
-			} else {
-				return (
-					<View style={{
-						marginTop: 10,
-						alignItems: 'center',
-						justifyContent: 'center'
-					}}>
-						<Text>The Game Will Begin at 9PM </Text>
-					</View>
-				)
-			}	
-		// }
+		if (true) {
+			return (
+				<View style={{ marginTop: 10 }}>
+					<Button
+						title='JOIN'
+						backgroundColor='#03A9F4'
+						onPress={() => Actions.start()}
+					/>
+				</View>
+			)
+		} else {
+			return (
+				<View style={{
+					marginTop: 10,
+					alignItems: 'center',
+					justifyContent: 'center'
+				}}>
+					<Text>The Game Will Begin at 9PM </Text>
+				</View>
+			)
+		}
 	}
 
 	render() {

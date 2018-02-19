@@ -5,7 +5,6 @@ import { Button, List, ListItem } from 'react-native-elements';
 import { Icon } from 'react-native-vector-icons';
 import { connect } from 'react-redux';
 import firebase from 'firebase';
-// import LinearGradient from 'react-native-linear-gradient';
 import _ from 'lodash';
 
 // RELATIVE
@@ -14,11 +13,7 @@ import * as actions from '../actions';
 class Rank extends Component {
     constructor(props) {
         super(props)
-<<<<<<< HEAD
         this.state = { page: 'Week' };
-=======
-        this.state = { page: 'Week' }
->>>>>>> 419bcea95172595732f0e8e737104e3503d5b7bf
     }
     
     isActive = (data) => {
@@ -51,7 +46,6 @@ class Rank extends Component {
                         roundAvatar
                         avatar={{ uri: 'https://i.imgur.com/FDWo9.jpg' }}
                         containerStyle={{ backgroundColor: 'rgb(230,235,240)' }}
-                        // containerStyle={{ backgroundColor: 'rgb(230,235,240)' }}
                         hideChevron={true}
                         key={i}
                         title={l.user}
@@ -71,12 +65,6 @@ class Rank extends Component {
         return (
             <View style={container}>
                 <View style={nav}>
-                    {/* <LinearGradient 
-                        colors={['rgba(0,0,0,0)','rgb(230,235,240)']}
-                        style={tab}
-                    >
-                        <Text style={{ color: '#999' }}>Week</Text>
-                    </LinearGradient> */}
                     <TouchableOpacity
                         style={ this.isActive('Week') || tab }
                         onPress={() => this.setState({ page: 'Week' })}

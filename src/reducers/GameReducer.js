@@ -1,8 +1,10 @@
-import { GAME_START, GOT_QUESTIONS, USER_RESPONSE } from '../actions/types';
+import { GAME_START, GOT_QUESTIONS, USER_RESPONSE, PLAYER_WIN, PLAYER_LOSE } from '../actions/types';
 
 const INITIAL_STATE = {
     gameStart: false,
-    questions: null
+    questions: null,
+    userPlaying: true,
+    currentQuestion: 0
 }
 
 export default (state=INITIAL_STATE, action) => {
@@ -10,10 +12,18 @@ export default (state=INITIAL_STATE, action) => {
         case GAME_START:
             return { ...state, gameStart: action.payload };
         case GOT_QUESTIONS:
-        console.log('got that shit')
             return { ...state, questions: action.payload };
         case USER_RESPONSE:
             return state;
+        case PLAYER_WIN:
+            console.log('PLAYER_WIN')
+            newQuestion = state.currentQuestion + 1
+            console.log(newQuestion)
+            return { ...state, currentQuestion: newQuestion };
+        case PLAYER_LOSE:
+            console.log('PLAYER_LOSE')
+            console.log(currentQuestion)
+            return { ...state, userPlaying: false, currentQuestion: currentQuestion + 1 };
         default:
             return state;
     }

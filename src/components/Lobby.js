@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import { Text, Animated, Easing, View } from 'react-native';
-import { FormLabel, FormInput, Card, Button } from 'react-native-elements';
+import { Card, Button } from 'react-native-elements';
 import { connect } from 'react-redux';
 import firebase from 'firebase';
-import { Actions } from 'react-native-router-flux';
 import * as Animatable from 'react-native-animatable';
 
 import * as actions from '../actions';
@@ -14,38 +13,39 @@ class Lobby extends Component {
         super(props)
 
         this.state = {
-            count: 0,
+            userCount: 0,
             banner: null,
-            current: 'beginning'
+            gameState: 'waiting'
         }
     }
         
     componentWillMount() {
-        console.log('cwm lobby')
         this.props.getQuestions()
+        //BANNER
         this.retrieveBanners()
         setTimeout(() => {
             this.retrieveBanners()
         }, 4000)
         this.animatedValue = new Animated.Value(200)
-        
-        const { currentUser } = firebase.auth();
-        
+        //USER COUNT
         const amOnline = firebase.database().ref(".info/connected");
+        const { currentUser } = firebase.auth();
         const userRef = firebase.database().ref(`presence/players/${currentUser.uid}`);
-        
         amOnline.on("value", snap => {
             if (snap.val()) {
                 userRef.onDisconnect().remove();
                 userRef.set(true);
             }
         });
-        
         const countRef = firebase.database().ref("presence");
         countRef.child("players_count").on("value", snap => {
-            this.setState({ count: snap.val() });
+            this.setState({ userCount: snap.val() });
         })
         
+    }
+
+    componentWillReceiveProps(nextProps) {
+        this.setState({ banner: nextProps.lobby.banner })
     }
 
     retrieveBanners() {
@@ -54,8 +54,8 @@ class Lobby extends Component {
         this.props.getBanners(banners[num])
     }
 
-    renderCurrent = () => {
-        if (this.state.current == 'beginning') {
+    renderGame = () => {
+        if (this.state.gameState === 'waiting') {
             const animatedStyle = { height: this.animatedValue };
             return (
                 <View style={styles.container}>
@@ -67,51 +67,40 @@ class Lobby extends Component {
                     >{this.state.banner}</Animatable.Text>
                     <View style={{ marginTop: 10 }}>
                         <Button
-                            title='GAME START'
+                            title='START GAME'
                             backgroundColor='#03A9F4'
-                            onPress={() => this.setState({ current: 'question' })}
+                            onPress={() => this.setState({ gameState: 'question' })}
                         />
                     </View>
                 </View>
             )
-        } else if (this.state.current == 'question') {
+        } else if (this.state.gameState == 'question') {
             return (
-                <Game /> //QUESTION
+                <Game nextCard={'question'} /> //QUESTION
             )
-        } else if (this.state.current == 'explanation') {
+        } else if (this.state.gameState == 'explanation') {
             return (
-                <Game /> //EXPLANATION
+                <Game nextCard={'explanation'} /> //EXPLANATION
             )
-        } else if (this.state.current == 'result') {
+        } else if (this.state.gameState == 'answer') {
             return (
-                <Game /> //RESULT
+                <Game nextCard={'answer'} /> //RESULT
             )
         }
     }
-
-// componentDidUpdate() {
-//     setTimeout(() => {
-//         this.retrieveBanners()
-//     }, 5000);
-// }
-
-componentWillReceiveProps(nextProps) {
-    this.setState({ banner: nextProps.lobby.banner })
-}
-
 
     render() {
         return (
             <View style={styles.container}>
                 <Card containerStyle={styles.total}>
-                    <Text style={{ color: 'red' }}>플레이어: {this.state.count} </Text>
+                    <Text style={{ color: 'red' }}>플레이어: {this.state.userCount} </Text>
                 </Card>
-                {this.renderCurrent()}
-                <Card style={{ height: 200 }}>
+                {this.renderGame()}
+                <Card style={{ height: 200, alignItems: 'bottom' }}>
                     <Text>CHAT</Text>
                 </Card>
             </View> 
-        )  
+        )
     }
 }
 
@@ -133,11 +122,15 @@ const styles = {
         alignSelf: 'center',
         marginTop: 30,
         fontFamily: "Copperplate"
+    },
+    total: {
+        width: 100,
+        backgroundColor: '#ffa2ed',
+        borderRadius: 50
     }
 }
 
 const mapStateToProps = state => {
-    console.log(state)
     return { lobby: state.lobby }
 }
 

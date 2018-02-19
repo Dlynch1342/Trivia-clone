@@ -16,5 +16,5 @@ export const GET_TOTAL = 'get_total';
 //GAME
 export const GAME_START = 'game_start';
 export const GOT_BANNERS = 'got_banners';
-export const GOT_QUESTION = 'got_question';
+export const GOT_QUESTIONS = 'got_questions';
 export const USER_RESPONSE = 'user_response';

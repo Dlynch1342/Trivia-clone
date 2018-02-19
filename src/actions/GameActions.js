@@ -1,5 +1,5 @@
 import firebase from 'firebase';
-import { GAME_START, GOT_BANNERS, GOT_QUESTION, USER_RESPONSE } from './types'
+import { GAME_START, GOT_BANNERS, GOT_QUESTIONS, USER_RESPONSE } from './types'
 
 export const beginGame = (text) => {
     return {
@@ -13,27 +13,35 @@ export const getBanners = (banner) => {
     console.log(b)
     return (dispatch) => {
         const ref = firebase.database().ref(`banners/${b}`);
-        ref.once('value')
-            .then(snapshot => {
+        ref.once('value', snapshot => {
                 dispatch({ type: GOT_BANNERS, payload: snapshot.val() })
             })
     };
 };
 
-export const getQuestion = (question) => {
-    const q = question;
+export const getQuestions = () => {
+    console.log('hit getQ')
     return (dispatch) => {
-        const ref = firebase.database().ref(`questions/20180326/${q}`);
-        ref.once('value')
-        .then(snapshot => {
-                dispatch({ type: GOT_QUESTION, payload: snapshot.val() })
+        const ref = firebase.database().ref('/questions');
+        ref.once('value', snapshot => {
+            console.log(snapshot.val())
+                dispatch({ type: GOT_QUESTIONS, payload: snapshot.val() })
             })
     };
 };
 
 export const respond = (data) => {
+    const currentQuestion = 'question_10'
     const user = firebase.auth().currentUser.uid;
+    const answer = firebase.database().ref(`answer/${currentQuestion}`)
+
     return (dispatch) => {
+        if (data === answer ) {
+            //run true
+        } 
+        if (data !== answer ) {
+            //run true
+        } 
         if (data === 'option_1') {
             firebase.database().ref('user_answers/option_1').push({ uid: user, response: data })
             dispatch({ type: USER_RESPONSE, payload: data })

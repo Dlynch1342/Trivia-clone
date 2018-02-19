@@ -1,43 +1,98 @@
 import React, { Component } from 'react';
 import { Text, Animated, Easing, View } from 'react-native';
 import { FormLabel, FormInput, Card, Button } from 'react-native-elements';
-import { connect } from 'react-redux'
-import * as actions from '../actions';
+import { connect } from 'react-redux';
+import firebase from 'firebase';
+import { Actions } from 'react-native-router-flux';
 import * as Animatable from 'react-native-animatable';
+
+import * as actions from '../actions';
+import Game from './Game';
 
 class Lobby extends Component {
     constructor(props) {
         super(props)
 
         this.state = {
-            banner: null
+            count: 0,
+            banner: null,
+            current: 'beginning'
         }
     }
-componentWillMount() {
-    // this.retrieveBanners()
-    setTimeout(() => {
+        
+    componentWillMount() {
+        console.log('cwm lobby')
+        this.props.getQuestions()
         this.retrieveBanners()
-    }, 4000)
-    // this.animatedValue = new Animated.Value(200)
-}
+        setTimeout(() => {
+            this.retrieveBanners()
+        }, 4000)
+        this.animatedValue = new Animated.Value(200)
+        
+        const { currentUser } = firebase.auth();
+        
+        const amOnline = firebase.database().ref(".info/connected");
+        const userRef = firebase.database().ref(`presence/players/${currentUser.uid}`);
+        
+        amOnline.on("value", snap => {
+            if (snap.val()) {
+                userRef.onDisconnect().remove();
+                userRef.set(true);
+            }
+        });
+        
+        const countRef = firebase.database().ref("presence");
+        countRef.child("players_count").on("value", snap => {
+            this.setState({ count: snap.val() });
+        })
+        
+    }
 
-retrieveBanners() {
-    const banners = ['b01', 'b02', 'b03', 'b04', 'b05', 'b06']
-    const num = Math.floor(Math.random() * 6)
-    this.props.getBanners(banners[num])
-}
-componentDidUpdate() {
-    setTimeout(() => {
-        this.retrieveBanners()
-    }, 5000);
-}
+    retrieveBanners() {
+        const banners = ['b01', 'b02', 'b03', 'b04', 'b05', 'b06']
+        const num = Math.floor(Math.random() * 6)
+        this.props.getBanners(banners[num])
+    }
 
-// componentDidMount() {
-//     Animated.timing(this.animatedValue, {
-//         toValue: 100,
-//         duration: 2000,
-//         easing: Easing.bounce
-//     }).start()
+    renderCurrent = () => {
+        if (this.state.current == 'beginning') {
+            const animatedStyle = { height: this.animatedValue };
+            return (
+                <View style={styles.container}>
+                    <Animatable.Text
+                        style={styles.text}
+                        animation="pulse"
+                        easing="ease-out"
+                        iterationCount="infinite"
+                    >{this.state.banner}</Animatable.Text>
+                    <View style={{ marginTop: 10 }}>
+                        <Button
+                            title='GAME START'
+                            backgroundColor='#03A9F4'
+                            onPress={() => this.setState({ current: 'question' })}
+                        />
+                    </View>
+                </View>
+            )
+        } else if (this.state.current == 'question') {
+            return (
+                <Game /> //QUESTION
+            )
+        } else if (this.state.current == 'explanation') {
+            return (
+                <Game /> //EXPLANATION
+            )
+        } else if (this.state.current == 'result') {
+            return (
+                <Game /> //RESULT
+            )
+        }
+    }
+
+// componentDidUpdate() {
+//     setTimeout(() => {
+//         this.retrieveBanners()
+//     }, 5000);
 // }
 
 componentWillReceiveProps(nextProps) {
@@ -46,20 +101,17 @@ componentWillReceiveProps(nextProps) {
 
 
     render() {
-        const animatedStyle = { height: this.animatedValue}
         return (
             <View style={styles.container}>
-                <Animatable.Text 
-                style={styles.text}
-                animation="pulse"
-                easing="ease-out"
-                iterationCount="infinite"
-                >{this.state.banner}</Animatable.Text>
-                {/* <Animated.Text style={[styles.box, animatedStyle]}>
-                    {this.state.banner}
-                </Animated.Text> */}
-            </View>
-        );
+                <Card containerStyle={styles.total}>
+                    <Text style={{ color: 'red' }}>플레이어: {this.state.count} </Text>
+                </Card>
+                {this.renderCurrent()}
+                <Card style={{ height: 200 }}>
+                    <Text>CHAT</Text>
+                </Card>
+            </View> 
+        )  
     }
 }
 

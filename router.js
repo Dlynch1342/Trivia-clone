@@ -7,6 +7,7 @@ import Login from './src/components/Login';
 import Username from './src/components/Username';
 import Dashboard from './src/components/Dashboard';
 import Leaderboard from './src/components/Leaderboard';
+import Lobby from './src/components/Lobby';
 import Game from './src/components/Game';
 
 const RouterComponent = () => {
@@ -31,7 +32,8 @@ const RouterComponent = () => {
 					<Scene key='leaderboard' component={Leaderboard} title='Check it out!' />
 				</Scene>
 				<Scene key="start">
-					<Scene key='game' component={Game} title='GameTime' />
+					<Scene key='lobby' component={Lobby} title='Lobby Time' />
+					<Scene key='game' component={Game} title='Game Time' />
 				</Scene>
 			</Scene>
 		</Router>

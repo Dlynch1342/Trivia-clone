@@ -12,22 +12,19 @@ export const usernameInput = (text) => {
 	};
 };
 
-export const usernameSave = ({ username }) => {
+export const usernameSave = ({ username }, data) => {
 	const { currentUser } = firebase.auth();
 
 	return (dispatch) => {
-		firebase.database().ref(`usernameList/${currentUser.uid}`).set({ username });
-		
+		firebase.database().ref(`usernameList/${currentUser.uid}`).set(data);
+
 		firebase.database().ref(`users/${currentUser.uid}`).set({ username })
-			.then(() => {dispatch({ type: USERNAME_SAVE });
-			Actions.main();
-		});
+			.then(() => {
+				dispatch({ type: USERNAME_SAVE });
+				Actions.main();
+			});
 	};
 };
-
-const usernamelistsave = (data) => {
-	firebase.database().ref(`usernaemList/${currentUser.uid}`).set(data);
-}
 
 export const usernameFetch = () => {
 	const { currentUser } = firebase.auth();

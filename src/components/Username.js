@@ -1,4 +1,3 @@
-// ABSOLUTE
 import firebase from 'firebase';
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, ImageBackground, Dimensions } from 'react-native';
@@ -6,9 +5,9 @@ import { FormLabel, FormInput, Button, FormValidationMessage } from 'react-nativ
 import { connect } from 'react-redux';
 
 // RELATIVE
-import * as actions from '../actions'; 
+import * as actions from '../actions';
 
-class UsernameScreen extends Component {
+class Username extends Component {
 	constructor(props) {
 		super(props)
 
@@ -18,7 +17,7 @@ class UsernameScreen extends Component {
 			error_2: ''
 		}
 	}
-	
+
 	onUsernameInput(text) {
 		const newText = String(text).replace(/\s+/g, '');
 
@@ -29,28 +28,30 @@ class UsernameScreen extends Component {
 		console.log('hit button press')
 		const { currentUser } = firebase.auth();
 		const { username } = this.props.nickname;
+		const data = this.props.nickname.username;
 
 		const usernameValid = username.length > 2;
 		this.setState({ usernameValid })
 		if (usernameValid) {
-			firebase.database().ref('usernameList').orderByValue().equalTo(`${ username }`).once('value', snap => {
+			firebase.database().ref('usernameList').orderByValue().equalTo(`${this.props.nickname.username}`).once('value', snap => {
+				console.log(snap.val(), 'fuck');
 				const name = snap.val();
-		
+
 				if (name) {
 					console.log('cant')
-					this.setState({ error_1: ''});
-					this.setState({ error_2: 'Username is already taken.'});
+					this.setState({ error_1: '' });
+					this.setState({ error_2: 'Username is already taken.' });
 				} else {
 					console.log('proceed to action creator');
-					this.props.usernameSave({ username });
+					this.props.usernameSave({ username }, data);
 				}
 			})
 		} else {
-			this.setState({ error_2: ''});
+			this.setState({ error_2: '' });
 			this.setState({ error_1: 'username needs to be at least 3 characters' });
 		}
 	}
-				
+
 	render() {
 		return (
 			<View>
@@ -86,4 +87,4 @@ const mapStateToProps = state => {
 	return { nickname: state.nickname };
 };
 
-export default connect(mapStateToProps, actions)(UsernameScreen);
+export default connect(mapStateToProps, actions)(Username);

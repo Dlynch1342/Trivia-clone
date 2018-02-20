@@ -41,23 +41,21 @@ export const respond = (option,num) => {
         ref.once("value").then(function(snapshot){
             var answer = snapshot.exists();
             if (answer) {
-                console.log('on player winnner')
                 dispatch({ type: PLAYER_WIN })
             } 
             if (!answer) {
-                console.log('on plater loooose')
                 dispatch({ type: PLAYER_LOSE })
             } 
-            // if (option === 'option_1') {
-            //     firebase.database().ref('user_answers/option_1').push({ uid: user, response: data })
-            //     return dispatch({ type: USER_RESPONSE, payload: data })
-            // } if (option === 'option_2') {
-            //     firebase.database().ref('user_answers/option_2').push({ uid: user, response: data })
-            //     return dispatch({ type: USER_RESPONSE, payload: data })
-            // } else if (option === 'option_3') {
-            //     firebase.database().ref('user_answers/option_3').push({ uid: user, response: data })
-            //     return dispatch({ type: USER_RESPONSE, payload: data })
-            // }
+            if (option === 'option_1') {
+                firebase.database().ref('user_answers/option_1').push({ uid: user, response: data })
+                dispatch({ type: USER_RESPONSE, payload: data })
+            } if (option === 'option_2') {
+                firebase.database().ref('user_answers/option_2').push({ uid: user, response: data })
+                dispatch({ type: USER_RESPONSE, payload: data })
+            } else if (option === 'option_3') {
+                firebase.database().ref('user_answers/option_3').push({ uid: user, response: data })
+                dispatch({ type: USER_RESPONSE, payload: data })
+            }
         })
     };
 }

@@ -7,7 +7,7 @@ import firebase from 'firebase';
 // RELATIVE
 import * as actions from '../actions'; 
 
-class DashboardScreen extends Component {
+class Dashboard extends Component {
 	componentWillMount() {
 		this.props.usernameFetch();
 		this.props.getWeek();
@@ -81,11 +81,11 @@ class DashboardScreen extends Component {
 			</View>
 
 		);
-	}
+	}v 
 }
 
 const mapStateToProps = state => {
-	return { login: state.login, info: state.username, game: state.game }
+	return { login: state.login, info: state.nickname, game: state.game }
 }
 
-export default connect(mapStateToProps, actions)(DashboardScreen);
+export default connect(mapStateToProps, actions)(Dashboard);

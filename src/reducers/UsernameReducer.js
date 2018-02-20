@@ -8,11 +8,11 @@ const INITIAL_STATE = {
 export default (state = INITIAL_STATE, action) => {
 	switch (action.type) {
 		case USERNAME_INPUT:
-			return {...state, username: action.payload};
+			return { ...state, username: action.payload };
 		case USERNAME_SAVE:
-			return state;	
+			return INITIAL_STATE;
 		case FETCH_USERNAME:
-			return {...state, username: action.payload};	
+			return { ...state, username: action.payload };
 		default:
 			return state;
 	}

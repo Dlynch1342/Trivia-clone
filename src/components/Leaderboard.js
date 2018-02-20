@@ -10,7 +10,7 @@ import _ from 'lodash';
 // RELATIVE
 import * as actions from '../actions';
 
-class Rank extends Component {
+class Leaderboard extends Component {
     constructor(props) {
         super(props)
         this.state = { page: 'Week' };
@@ -35,9 +35,9 @@ class Rank extends Component {
     getList = () => {
         if ( this.state.page === 'Week') {
             console.log('b')
-            var list = this.props.rank.week;
+            var list = this.props.Leaderboard.week;
         } else {
-            var list = this.props.rank.total;
+            var list = this.props.Leaderboard.total;
         }
         return (
             <List containerStyle={{ marginBottom: 20 }}>
@@ -123,7 +123,7 @@ const styles = {
 };
 
 const mapStateToProps = state => {
-    return { rank: state.rank }
+    return { Leaderboard: state.Leaderboard }
 }
 
-export default connect(mapStateToProps, actions)(Rank);
+export default connect(mapStateToProps, actions)(Leaderboard);

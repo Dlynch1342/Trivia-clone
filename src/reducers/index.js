@@ -11,7 +11,7 @@ import GameReducer from './GameReducer';
 export default combineReducers({
 	game: GameReducer,
 	login: LoginReducer,
-	username: UsernameReducer,
+	nickname: UsernameReducer,
 	rank: LeaderboardReducer,
 	lobby: LobbyReducer
 });

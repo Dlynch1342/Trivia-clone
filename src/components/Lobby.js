@@ -5,20 +5,21 @@ import { connect } from 'react-redux';
 import firebase from 'firebase';
 import * as Animatable from 'react-native-animatable';
 
+
 import * as actions from '../actions';
 import Game from './Game';
 
 class Lobby extends Component {
     constructor(props) {
         super(props)
-
         this.state = {
             userCount: 0,
             banner: null,
-            gameState: 'waiting'
+            level: 1,
+            card: 'waiting'
         }
     }
-        
+
     componentWillMount() {
         this.props.getQuestions()
         //BANNER
@@ -43,7 +44,7 @@ class Lobby extends Component {
         })
         
     }
-
+ 
     componentWillReceiveProps(nextProps) {
         this.setState({ banner: nextProps.lobby.banner })
     }
@@ -54,8 +55,8 @@ class Lobby extends Component {
         this.props.getBanners(banners[num])
     }
 
-    renderGame = () => {
-        if (this.state.gameState === 'waiting') {
+    renderCard = () => {
+        if (this.state.card === 'waiting') {
             const animatedStyle = { height: this.animatedValue };
             return (
                 <View style={styles.container}>
@@ -69,20 +70,22 @@ class Lobby extends Component {
                         <Button
                             title='START GAME'
                             backgroundColor='#03A9F4'
-                            onPress={() => this.setState({ gameState: 'question' })}
+                            onPress={() => this.setState({ card: 'question' })}
                         />
-                    </View>
+                    </View> 
                 </View>
             )
-        } else if (this.state.gameState == 'question') {
+        } else if (this.state.card == 'question') {
             return (
-                <Game nextCard={'question'} /> //QUESTION
+                <View>
+                    <Game nextCard={'question'} />
+                </View>
             )
-        } else if (this.state.gameState == 'explanation') {
+        } else if (this.state.card == 'explanation') {
             return (
                 <Game nextCard={'explanation'} /> //EXPLANATION
             )
-        } else if (this.state.gameState == 'answer') {
+        } else if (this.state.card == 'answer') {
             return (
                 <Game nextCard={'answer'} /> //RESULT
             )
@@ -95,7 +98,7 @@ class Lobby extends Component {
                 <Card containerStyle={styles.total}>
                     <Text style={{ color: 'red' }}>플레이어: {this.state.userCount} </Text>
                 </Card>
-                {this.renderGame()}
+                {this.renderCard('question')}
                 <Card style={{ height: 200, alignItems: 'bottom' }}>
                     <Text>CHAT</Text>
                 </Card>
@@ -134,4 +137,4 @@ const mapStateToProps = state => {
     return { lobby: state.lobby }
 }
 
-export default connect(mapStateToProps, actions )(Lobby);
+export default connect(mapStateToProps, actions)(Lobby);

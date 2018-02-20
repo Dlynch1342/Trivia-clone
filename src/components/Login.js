@@ -7,16 +7,16 @@ import { connect } from 'react-redux';
 // RELATIVE
 import * as actions from '../actions'; 
 
-class LoginScreen extends Component {
-	onEmailInput(text) {
+class Login extends Component {
+	onEmailInput = (text) => {
 		this.props.emailInput(text);
 	}
 
-	onPasswordInput(text) {
+	onPasswordInput = (text) => {
 		this.props.passwordInput(text);
 	}
 
-	onButtonPress() {
+	onButtonPress = () => {
 		const { email, password } = this.props.login;
 		this.props.userLogin({ email, password });
 	}
@@ -33,7 +33,7 @@ class LoginScreen extends Component {
 							autoCorrect={false}
 							returnKeyType='next'
 							value={this.props.email}
-							onChangeText={this.onEmailInput.bind(this)}
+							onChangeText={this.onEmailInput}
 						/>
 					</View>
 					<View>
@@ -45,7 +45,7 @@ class LoginScreen extends Component {
 							autoCorrect={false}
 							returnKeyType='done'
 							value={this.props.password}
-							onChangeText={this.onPasswordInput.bind(this)}
+							onChangeText={this.onPasswordInput}
 						/>
 					</View>
 				</View>
@@ -53,7 +53,7 @@ class LoginScreen extends Component {
 					<Button
 						title='LOGIN'
 						backgroundColor='#03A9F4'
-						onPress={this.onButtonPress.bind(this)}
+						onPress={this.onButtonPress}
 					/>
 				</View>
 			</View>
@@ -65,4 +65,4 @@ const mapStateToProps = state => {
 	return { login: state.login };
 };
 
-export default connect(mapStateToProps, actions)(LoginScreen);
+export default connect(mapStateToProps, actions)(Login);

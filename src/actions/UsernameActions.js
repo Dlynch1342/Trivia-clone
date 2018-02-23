@@ -3,7 +3,12 @@ import firebase from 'firebase';
 import { Actions } from 'react-native-router-flux';
 
 // RELATIVE
-import { USERNAME_INPUT, USERNAME_SAVE, FETCH_USERNAME } from './types';
+import { 
+	USERNAME_INPUT, 
+	USERNAME_SAVE, 
+	FETCH_USERNAME, 
+	REFERRALCODE_INPUT 
+} from './types';
 
 export const usernameInput = (text) => {
 	return {
@@ -12,11 +17,18 @@ export const usernameInput = (text) => {
 	};
 };
 
-export const usernameSave = ({ username }) => {
+export const referralCodeInput = (code) => {
+	return {
+		type: REFERRALCODE_INPUT,
+		payload: code
+	};
+};
+
+export const usernameSave = ({ username }, data) => {
 	const { currentUser } = firebase.auth();
 
 	return (dispatch) => {
-		firebase.database().ref(`usernameList/${currentUser.uid}`).set({ username });
+		firebase.database().ref(`username_list/${data}`).set(currentUser.uid);
 		
 		firebase.database().ref(`users/${currentUser.uid}`).set({ username })
 			.then(() => {dispatch({ type: USERNAME_SAVE });
@@ -24,10 +36,6 @@ export const usernameSave = ({ username }) => {
 		});
 	};
 };
-
-const usernamelistsave = (data) => {
-	firebase.database().ref(`usernaemList/${currentUser.uid}`).set(data);
-}
 
 export const usernameFetch = () => {
 	const { currentUser } = firebase.auth();

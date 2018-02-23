@@ -19,11 +19,20 @@ export default (state=INITIAL_STATE, action) => {
             console.log('PLAYER_WIN')
             newQuestion = state.currentQuestion + 1
             console.log(newQuestion)
-            return { ...state, currentQuestion: newQuestion };
+            return { 
+							...state, 
+							userPlaying: true, 
+							currentQuestion: newQuestion 
+						};
         case PLAYER_LOSE:
-            console.log('PLAYER_LOSE')
-            console.log(currentQuestion)
-            return { ...state, userPlaying: false, currentQuestion: currentQuestion + 1 };
+						console.log('PLAYER_LOSE')
+						newQuestion = state.currentQuestion
+            console.log(newQuestion)
+            return { 
+							...state, 
+							userPlaying: false, 
+							currentQuestion: newQuestion 
+						};
         default:
             return state;
     }

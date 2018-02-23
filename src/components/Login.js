@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 // RELATIVE
 import * as actions from '../actions'; 
 
-class LoginScreen extends Component {
+class Login extends Component {
 	onEmailInput(text) {
 		this.props.emailInput(text);
 	}
@@ -65,4 +65,4 @@ const mapStateToProps = state => {
 	return { login: state.login };
 };
 
-export default connect(mapStateToProps, actions)(LoginScreen);
+export default connect(mapStateToProps, actions)(Login);

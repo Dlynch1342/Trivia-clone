@@ -123,7 +123,7 @@ const styles = {
 };
 
 const mapStateToProps = state => {
-    return { Leaderboard: state.Leaderboard }
+    return { Leaderboard: state.rank }
 }
 
 export default connect(mapStateToProps, actions)(Leaderboard);

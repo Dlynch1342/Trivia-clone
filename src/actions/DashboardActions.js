@@ -12,7 +12,7 @@ export const heartFetch = () => {
 			.once('value', snap => {
 				var name = snap.val();
 				
-				firebase.database().ref(`heartlist`).once('value')
+				firebase.database().ref(`heart_list`).once('value')
 					.then (snap => {
 						var count = snap.child(`${name}`).numChildren();
 						

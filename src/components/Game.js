@@ -1,18 +1,28 @@
+// ABSOLUTE
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
 import { FormLabel, FormInput, Card, Button } from 'react-native-elements';
 import { connect } from 'react-redux';
 import firebase from 'firebase';
 import _ from 'lodash';
+import * as Animatable from 'react-native-animatable';
+import CountdownCircle from 'react-native-countdown-circle';
+
+// RELATIVE
 import * as actions from '../actions';
 
 class Game extends Component {
     constructor(props){
         super(props)
         this.state = {
-            clickable: true
+            clickable: true,
+            index: 0,
+            counter: 10,
+            card: 'waiting',
+            banner: null
         }
     }
+    
     playerStatus = (num) => {
         const { currentQuestion, userPlaying } = this.props.game;
         const { clickable } = this.state;
@@ -23,12 +33,120 @@ class Game extends Component {
             console.log('you lost your chance bruh!')
         }
     }
+
+    componentWillMount() {
+        //BANNER
+        if (this.state.gameStart) {
+            setInterval(() => {
+                this.gameCountdown()
+            }, 1000)
+        } else if (!this.state.gameStart) {
+            setTimeout(() => {
+                this.retrieveBanners()
+            }, 4000)
+        }
+
+        // PRESENCE  
+        const { currentUser } = firebase.auth();
+        const amOnline = firebase.database().ref(".info/connected");
+        const userRef = firebase.database().ref(`presence/players/${currentUser.uid}`);
+        amOnline.on("value", snap => {
+            if (snap.val()) {
+                userRef.onDisconnect().remove();
+                userRef.set(true);
+            }
+        });
+        const countRef = firebase.database().ref("presence");
+        countRef.child("players_count").on("value", snap => {
+            this.setState({ count: snap.val() });
+        })
+    }
+
+    componentDidMount() {
+        var increase = this.state.index + 1
+        this.setState({ index: increase })
+    }
+    
+    retrieveBanners() {
+        const banners = ['b01', 'b02', 'b03', 'b04', 'b05', 'b06']
+        const num = Math.floor(Math.random() * 6)
+        this.props.getBanners(banners[num])
+    }
+
+    // questionCountdown() {
+    //     const numArray = ['10', '9', '8', '7', '6', '5', '4', '3', '2', '1', 'Time Up!!!!!!'];
+    //     this.setState({ counter: numArray[this.state.index] })
+    //     var increase = this.state.index + 1
+    //     this.setState({ index: increase })
+    // }
+
+    gameCountdown() {
+        const numArray = ['10', '9', '8', '7', '6', '5', '4', '3', '2', '1', 'Game Time!!!!!!', 'Game Time!!!!!!'];
+        this.setState({ counter: numArray[this.state.index] })
+        var increase = this.state.index + 1
+        this.setState({ index: increase })
+        if (increase === 13) {
+            this.setState({ card: 'question' })
+        }
+    }
+
+    _renderAnimation = () => {
+        if (this.state.gameStart) {
+            return (
+                <Animatable.Text
+                    style={styles.text}
+                    animation="pulse"
+                    easing="ease-out"
+                    iterationCount="infinite"
+                >{this.state.counter}
+                </Animatable.Text>
+            )
+        } else if (!this.state.gameStart) {
+            return (
+                <Animatable.Text
+                    style={styles.text}
+                    animation="pulse"
+                    easing="ease-out"
+                    iterationCount="infinite"
+                >{this.state.banner}</Animatable.Text>
+            )
+        }
+    }
+
+    componentWillReceiveProps(nextProps) {
+        this.setState({ banner: nextProps.lobby.banner })
+    }
     
     render() {
         const question = this.props.questions[this.props.game.currentQuestion]
-        if (this.props.nextCard == 'question') {
+        if (this.state.card === 'waiting') {
+            const animatedStyle = { height: this.animatedValue };
+            return (
+                <View style={styles.container}>
+                    {this._renderAnimation()}
+                    <View style={{ marginTop: 10 }}>
+                        <Button
+                            title='START GAME'
+                            backgroundColor='#03A9F4'
+                            onPress={() => this.setState({ card: 'question' })}
+                        />
+                    </View>
+                </View>
+            )
+        } else if (this.state.card == 'question') {
             return (
                 <Card containerStyle={styles.container}>
+                    <View style={styles.timer}>
+                        <CountdownCircle
+                            seconds={10}
+                            radius={30}
+                            borderWidth={8}
+                            color="#f442e8"
+                            bgColor="#fff"
+                            textStyle={{ fontSize: 20 }}
+                            onTimeElapsed={() => this.setState({ card: 'explanation' })}
+                        />
+                    </View>
                     <Card>
                         <FormLabel>{question.content}</FormLabel>
                         <View style={{ marginTop: 20 }}>
@@ -43,7 +161,7 @@ class Game extends Component {
                                 buttonStyle={styles.button}
                                 value="2"
                                 onPress={() => this.playerStatus(2)}
-                                />
+                            />
                             <Button
                                 title={question.user_answers.option_3}
                                 buttonStyle={styles.button}
@@ -54,7 +172,7 @@ class Game extends Component {
                     </Card>
                 </Card>
             )
-        } else if (this.props.nextCard == 'explanation') {
+        } else if (this.state.card == 'explanation') {
             console.log(question)
             return (
                 <Card containerStyle={styles.container}>
@@ -63,7 +181,7 @@ class Game extends Component {
                     </Card>
                 </Card>
             )
-        } else if (this.props.nextCard == 'answer') {
+        } else if (this.state.card == 'answer') {
             console.log(question)
             return (
                 <Card containerStyle={styles.container}>
@@ -79,13 +197,28 @@ class Game extends Component {
 const styles = {
     container: {
         flex: 1,
-        backgroundColor: '#F5FCFF',
+        backgroundColor: '#F5FCFF'
+    },
+    box: {
+        backgroundColor: "#ff0066",
+        width: 100,
+        height: 100
+    },
+    text: {
+        fontSize: 25,
+        color: '#f442e8',
+        alignSelf: 'center',
+        marginTop: 30,
+        fontFamily: "Copperplate"
     },
     button: {
         backgroundColor: '#ffa2ed',
         margin: 10,
         borderRadius: 50
     },
+    timer: {
+        alignSelf: 'center'
+    }
     
 }
 
@@ -94,7 +227,7 @@ const mapStateToProps = state => {
     _.forEach(state.game.questions, value => {
         arr.push(value);
     });
-    return { game: state.game, questions: arr }
+    return { game: state.game, questions: arr, lobby: state.lobby }
 }
 
 export default connect(mapStateToProps, actions)(Game);

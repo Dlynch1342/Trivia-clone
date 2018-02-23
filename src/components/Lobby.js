@@ -22,12 +22,6 @@ class Lobby extends Component {
 
     componentWillMount() {
         this.props.getQuestions()
-        //BANNER
-        this.retrieveBanners()
-        setTimeout(() => {
-            this.retrieveBanners()
-        }, 4000)
-        this.animatedValue = new Animated.Value(200)
         //USER COUNT
         const amOnline = firebase.database().ref(".info/connected");
         const { currentUser } = firebase.auth();
@@ -42,63 +36,24 @@ class Lobby extends Component {
         countRef.child("players_count").on("value", snap => {
             this.setState({ userCount: snap.val() });
         })
+        //GAME COUNTDOWN
+        // setInterval(() => {
+        //     this.createCountdown()
+        // }, 1000)
         
     }
  
     componentWillReceiveProps(nextProps) {
         this.setState({ banner: nextProps.lobby.banner })
-    }
-
-    retrieveBanners() {
-        const banners = ['b01', 'b02', 'b03', 'b04', 'b05', 'b06']
-        const num = Math.floor(Math.random() * 6)
-        this.props.getBanners(banners[num])
-    }
-
-    renderCard = () => {
-        if (this.state.card === 'waiting') {
-            const animatedStyle = { height: this.animatedValue };
-            return (
-                <View style={styles.container}>
-                    <Animatable.Text
-                        style={styles.text}
-                        animation="pulse"
-                        easing="ease-out"
-                        iterationCount="infinite"
-                    >{this.state.banner}</Animatable.Text>
-                    <View style={{ marginTop: 10 }}>
-                        <Button
-                            title='START GAME'
-                            backgroundColor='#03A9F4'
-                            onPress={() => this.setState({ card: 'question' })}
-                        />
-                    </View> 
-                </View>
-            )
-        } else if (this.state.card == 'question') {
-            return (
-                <View>
-                    <Game nextCard={'question'} />
-                </View>
-            )
-        } else if (this.state.card == 'explanation') {
-            return (
-                <Game nextCard={'explanation'} /> //EXPLANATION
-            )
-        } else if (this.state.card == 'answer') {
-            return (
-                <Game nextCard={'answer'} /> //RESULT
-            )
-        }
-    }
+    }    
 
     render() {
         return (
             <View style={styles.container}>
                 <Card containerStyle={styles.total}>
-                    <Text style={{ color: 'red' }}>플레이어: {this.state.userCount} </Text>
+                    <Text style={{ color: 'white' }}>플레이어: {this.state.userCount} </Text>
                 </Card>
-                {this.renderCard('question')}
+                <Game />
                 <Card style={{ height: 200, alignItems: 'bottom' }}>
                     <Text>CHAT</Text>
                 </Card>

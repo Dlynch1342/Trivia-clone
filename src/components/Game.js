@@ -19,8 +19,9 @@ class Game extends Component {
             index: 0,
             counter: 10,
             card: 'waiting',
-            banner: null
-        }
+						banner: null,
+				}
+				var bannerfuck;
     }
     
     playerStatus = (num) => {
@@ -32,20 +33,12 @@ class Game extends Component {
         } else if (userPlaying == false) {
             console.log('you lost your chance bruh!')
         }
-    }
-
+		}
+		
     componentWillMount() {
-        //BANNER
-        if (this.state.gameStart) {
-            setInterval(() => {
-                this.gameCountdown()
-            }, 1000)
-        } else if (!this.state.gameStart) {
-            setTimeout(() => {
-                this.retrieveBanners()
-            }, 4000)
-        }
-
+				bannerfuck = setInterval(() => {
+						this.retrieveBanners()
+				}, 4000)
         // PRESENCE  
         const { currentUser } = firebase.auth();
         const amOnline = firebase.database().ref(".info/connected");
@@ -63,9 +56,37 @@ class Game extends Component {
     }
 
     componentDidMount() {
-        var increase = this.state.index + 1
-        this.setState({ index: increase })
-    }
+			// var increase = this.state.index + 1
+			// this.setState({ index: increase })
+			
+			//EVENT LISTENER
+			const ref = firebase.database().ref("socket");
+			ref.orderByValue().limitToLast(1).on('child_added', snapshot => {
+				const childsnap = snapshot.val();
+				if(childsnap.sender === 'server'){
+					if (childsnap.order === 'start_counter') {
+						snapshot.ref.remove()
+						setInterval(() => {
+							this.gameCountdown()
+						}, 1000)
+						this.setState({ card:'gamestart' })
+					} else if (childsnap.order === 'render_question') {
+						snapshot.ref.remove()
+						this.setState({ card:'question' })
+					} else if (childsnap.order === 'render_explanation') {
+						snapshot.ref.remove()
+						this.state.card !== 'explanation' ? this.setState({ card:'explanation' }) : console.log('its already explanation dude');
+					}
+				}
+			});
+		}
+
+		componentWillReceiveProps(nextProps) {
+			this.setState({ banner: nextProps.lobby.banner })
+			if (nextProps.card !== 'waiting') {
+				clearInterval(bannerfuck);
+			}
+	}
     
     retrieveBanners() {
         const banners = ['b01', 'b02', 'b03', 'b04', 'b05', 'b06']
@@ -84,38 +105,36 @@ class Game extends Component {
         const numArray = ['10', '9', '8', '7', '6', '5', '4', '3', '2', '1', 'Game Time!!!!!!', 'Game Time!!!!!!'];
         this.setState({ counter: numArray[this.state.index] })
         var increase = this.state.index + 1
-        this.setState({ index: increase })
-        if (increase === 13) {
-            this.setState({ card: 'question' })
-        }
+				this.setState({ index: increase })
+				if (increase === 13) {
+					this.setState({ card: 'question' })
+				}
     }
 
-    _renderAnimation = () => {
-        if (this.state.gameStart) {
-            return (
-                <Animatable.Text
-                    style={styles.text}
-                    animation="pulse"
-                    easing="ease-out"
-                    iterationCount="infinite"
-                >{this.state.counter}
-                </Animatable.Text>
-            )
-        } else if (!this.state.gameStart) {
-            return (
-                <Animatable.Text
-                    style={styles.text}
-                    animation="pulse"
-                    easing="ease-out"
-                    iterationCount="infinite"
-                >{this.state.banner}</Animatable.Text>
-            )
-        }
-    }
-
-    componentWillReceiveProps(nextProps) {
-        this.setState({ banner: nextProps.lobby.banner })
-    }
+		_renderGameCountDown = () => {
+				return (
+						<Animatable.Text
+								style={styles.text}
+								animation="pulse"
+								easing="ease-out"
+								iterationCount="infinite"
+						>
+							{this.state.counter}
+						</Animatable.Text>
+				)
+				} 
+		_renderBanners  = () => {	
+				return (
+						<Animatable.Text
+								style={styles.text}
+								animation="pulse"
+								easing="ease-out"
+								iterationCount="infinite"
+						>
+							{this.state.banner}
+						</Animatable.Text>
+				)
+		}
     
     render() {
         const question = this.props.questions[this.props.game.currentQuestion]
@@ -123,17 +142,19 @@ class Game extends Component {
             const animatedStyle = { height: this.animatedValue };
             return (
                 <View style={styles.container}>
-                    {this._renderAnimation()}
-                    <View style={{ marginTop: 10 }}>
-                        <Button
-                            title='START GAME'
-                            backgroundColor='#03A9F4'
-                            onPress={() => this.setState({ card: 'question' })}
-                        />
-                    </View>
+                    {this._renderBanners()}
                 </View>
             )
-        } else if (this.state.card == 'question') {
+				} 
+				else if (this.state.card === 'gamestart') {
+					const animatedStyle = { height: this.animatedValue };
+					return (
+							<View style={styles.container}>
+									{this._renderGameCountDown()}
+							</View>
+					)
+				} 
+				else if (this.state.card == 'question') {
             return (
                 <Card containerStyle={styles.container}>
                     <View style={styles.timer}>
@@ -144,7 +165,7 @@ class Game extends Component {
                             color="#f442e8"
                             bgColor="#fff"
                             textStyle={{ fontSize: 20 }}
-                            onTimeElapsed={() => this.setState({ card: 'explanation' })}
+                            // onTimeElapsed={() => this.setState({ card: 'explanation' })}
                         />
                     </View>
                     <Card>
@@ -173,7 +194,8 @@ class Game extends Component {
                 </Card>
             )
         } else if (this.state.card == 'explanation') {
-            console.log(question)
+						console.log('------------what-----------')
+						console.log(question)
             return (
                 <Card containerStyle={styles.container}>
                     <Card>
@@ -182,7 +204,7 @@ class Game extends Component {
                 </Card>
             )
         } else if (this.state.card == 'answer') {
-            console.log(question)
+            console.log(question, 'fuck')
             return (
                 <Card containerStyle={styles.container}>
                     <Card>

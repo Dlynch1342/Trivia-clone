@@ -8,12 +8,12 @@ import {
     PLAYER_LOSE
 } from './types'
 
-export const beginGame = (text) => {
-    return {
-        type: GAME_START,
-        payload: text
-    };
-};
+// export const beginGame = (text) => {
+//     return {
+//         type: GAME_START,
+//         payload: text
+//     };
+// };
 
 export const getBanners = (banner) => {
     const b = banner;

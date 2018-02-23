@@ -1,7 +1,7 @@
 import { GAME_START, GOT_QUESTIONS, USER_RESPONSE, PLAYER_WIN, PLAYER_LOSE } from '../actions/types';
 
 const INITIAL_STATE = {
-    gameStart: false,
+    // gameStart: false,
     questions: null,
     userPlaying: true,
     currentQuestion: 0
@@ -9,8 +9,8 @@ const INITIAL_STATE = {
 
 export default (state=INITIAL_STATE, action) => {
     switch (action.type) {
-        case GAME_START:
-            return { ...state, gameStart: action.payload };
+        // case GAME_START:
+        //     return { ...state, gameStart: action.payload };
         case GOT_QUESTIONS:
             return { ...state, questions: action.payload };
         case USER_RESPONSE:

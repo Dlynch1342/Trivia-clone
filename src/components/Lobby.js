@@ -41,7 +41,7 @@ class Lobby extends Component {
         //     this.createCountdown()
         // }, 1000)
         
-    }
+		}
  
     componentWillReceiveProps(nextProps) {
         this.setState({ banner: nextProps.lobby.banner })

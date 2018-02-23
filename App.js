@@ -23,20 +23,20 @@ export default class App extends React.Component {
     firebase.initializeApp(config);
 
 
-    gameStart = (text) => {
-      console.log(text)
-      this.props.beginGame(text)
-    }
+    // gameStart = (text) => {
+    //   console.log(text)
+    //   this.props.beginGame(text)
+    // }
 
-    ontime({
-      cycle: ['13:54:00'],
-      single: false
-    }, function (ot) {
-      console.log('it is game time', ot)
-      gameStart(true)
-      ot.done()
-      return
-    })
+    // ontime({
+    //   cycle: ['13:54:00'],
+    //   single: false
+    // }, function (ot) {
+    //   console.log('it is game time', ot)
+    //   gameStart(true)
+    //   ot.done()
+    //   return
+    // })
 	}
 
   render() {

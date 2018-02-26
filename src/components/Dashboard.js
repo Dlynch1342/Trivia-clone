@@ -65,12 +65,12 @@ class Dashboard extends Component {
 							source={{ uri: 'https://www.acspri.org.au/sites/acspri.org.au/files/profile-placeholder.png' }}
 							// onPress={this._pickImage}
 						/>
+						<Text style={styles.text}>{this.props.nickname.username}</Text>
 					</View>
 					<View style={{ flexDirection: 'row' }}>
 						<View style={[styles.section2, styles.section3]}>
-							{/* <Text>{this.props.info.username}</Text> */}
 							<Text style={styles.text}>RANK</Text>
-							<Button 
+							<Button
 								title='385'
 								buttonStyle={{ backgroundColor: 'transparent', alignItems: 'center' }}
 								textStyle={[styles.text, { color: '#1D8FE1', fontSize: 24 }]}
@@ -206,7 +206,8 @@ const mapStateToProps = state => {
 	return { 
 		login: state.login, 
 		info: state.nickname, 
-		game: state.game, 
+		game: state.game,
+		nickname: state.nickname 
 	}
 }
 

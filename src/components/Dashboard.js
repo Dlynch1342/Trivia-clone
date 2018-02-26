@@ -65,7 +65,7 @@ class Dashboard extends Component {
 							source={{ uri: 'https://www.acspri.org.au/sites/acspri.org.au/files/profile-placeholder.png' }}
 							// onPress={this._pickImage}
 						/>
-						<Text style={styles.text}>{this.props.nickname.username}</Text>
+						<Text style={[styles.text, { marginTop: 20}]}>{this.props.nickname.username}</Text>
 					</View>
 					<View style={{ flexDirection: 'row' }}>
 						<View style={[styles.section2, styles.section3]}>
@@ -163,8 +163,7 @@ const styles = {
 		position: 'relative',
 		bottom: 50,
 		alignItems: 'center',
-		marginTop: 20,
-		borderBottomColor: '#625EB1'
+		marginTop: 20
 	},
 	section2: {
 		flex: 1,

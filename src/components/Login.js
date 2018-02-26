@@ -25,10 +25,6 @@ class Login extends Component {
 		this.keyboardDidHideListener.remove();
 	}
 
-	_keyboardStatus() {
-		this.state.keyboard ? { marginTop: 200 } : { marginTop: 500 }
-	}
-
 	onEmailInput = (text) => {
 		this.props.emailInput(text);
 	}

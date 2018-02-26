@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, Animated, Easing, View } from 'react-native';
+import { Text, Animated, Easing, View, Keyboard } from 'react-native';
 import { Card, Button } from 'react-native-elements';
 import { connect } from 'react-redux';
 import firebase from 'firebase';
@@ -12,14 +12,12 @@ import Game from './Game';
 import Chat from './Chat';
 
 class Lobby extends Component {
-	constructor(props) {
-		super(props)
-		this.state = {
-			userCount: 0,
-			banner: null,
-			level: 1,
-			card: 'waiting'
-		}
+	state = {
+		userCount: 0,
+		banner: null,
+		level: 1,
+		card: 'waiting',
+		keyboard: false 
 	}
 
 	componentWillMount() {
@@ -44,17 +42,22 @@ class Lobby extends Component {
 		// }, 1000)
 			
 	}
- 
+
 	componentWillReceiveProps(nextProps) {
 		this.setState({ banner: nextProps.lobby.banner })
-	}    
+	}
 
 	render() {
 		return (
 			<View style={styles.container}>
-				<Card containerStyle={styles.total}>
-					<Text style={{ color: 'white' }}>플레이어: {this.state.userCount} </Text>
-				</Card>
+				<LinearGradient
+					style={styles.total}
+					start={{ x: 0.0, y: 0.5 }}
+					end={{ x: 1.0, y: 0.5 }}
+					colors={['#1D8FE1', '#625EB1']}
+				>
+					<Text style={{ color:'white', backgroundColor:'transparent' }}>플레이어: {this.state.userCount}</Text>
+				</LinearGradient>
 				<Game />
 				<Chat />
 			</View> 
@@ -65,8 +68,6 @@ class Lobby extends Component {
 const styles = {
 	container: {
 		flex: 1,
-		// alignItems: "center",
-		// justifyContent: "center",
 		borderRadius: 50
 	},
 	box: {
@@ -82,9 +83,12 @@ const styles = {
 		fontFamily: "Copperplate"
 	},
 	total: {
+		padding: 10,
 		width: 100,
-		backgroundColor: '#ffa2ed',
-		borderRadius: 50
+		borderRadius: 50,
+		justifyContent: 'center',
+		alignItems: 'center',
+		margin: 20
 	}
 }
 

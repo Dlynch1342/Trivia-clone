@@ -8,9 +8,12 @@ import firebase from 'firebase';
 
 // RELATIVE
 import * as actions from '../actions'; 
+import ShareButton from './ShareButton';
 
 class Dashboard extends Component {
 	componentWillMount() {
+		this.props.calculateTotal()
+		this.props.getWinners()
 		this.props.usernameFetch();
 		this.props.heartFetch();
 		this.props.getWeek();
@@ -60,13 +63,6 @@ class Dashboard extends Component {
 					}}>
 						<Text>Your Balance: ${this.props.info.totalBalance}</Text>
 					</View>
-					{/* <View style={{ 
-						marginTop: 10,
-						alignItems: 'center',
-						justifyContent: 'center' 
-					}}>
-						<Text>You have {this.props.info.life} hearts</Text>
-					</View> */}
 				</Card>
 				<View style={{ marginTop: 10 }}>
 					<Button
@@ -80,11 +76,9 @@ class Dashboard extends Component {
 						style={{ marginTop: 10 }}
 						onPress={() => Actions.leaderboard()}
 					/>
-					<Button
-						title='INVITE FRIENDS'
-						backgroundColor='#03A9F4'
+					<ShareButton
 						style={{ marginTop: 10 }}
-						onPress={() => {}}
+						userName={this.props.info.username}
 					/>
 				</View>
 			</View>

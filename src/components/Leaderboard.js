@@ -40,7 +40,7 @@ class Leaderboard extends Component {
 					<ListItem
 						roundAvatar
 						avatar={{ uri: 'https://i.imgur.com/FDWo9.jpg' }}
-						containerStyle={{ backgroundColor: 'rgb(230,235,240)' }}
+						containerStyle={{ backgroundColor: '#F5F5F5' }}
 						hideChevron={true}
 						key={i}
 						title={l.user}

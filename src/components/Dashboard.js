@@ -71,6 +71,7 @@ class Dashboard extends Component {
 						<View style={[styles.section2, styles.section3]}>
 							<Text style={styles.text}>RANK</Text>
 							<Button
+							// title={`${this.props.info.myRank}`}
 								title='385'
 								buttonStyle={{ backgroundColor: 'transparent', alignItems: 'center' }}
 								textStyle={[styles.text, { color: '#1D8FE1', fontSize: 24 }]}
@@ -78,9 +79,9 @@ class Dashboard extends Component {
 							></Button>
 						</View>
 						<View style={styles.section2}>
-							{/* <Text>Your Balance: ${this.props.info.totalBalance}</Text> */}
 							<Text style={styles.text}>BALANCE:</Text>
 							<Button
+								// title={`${this.props.info.totalBalance}`}
 								title='$100'
 								buttonStyle={{ backgroundColor: 'transparent', alignItems: 'center' }}
 								textStyle={[styles.text, { color: '#1D8FE1', fontSize: 24 }]}
@@ -155,7 +156,7 @@ const styles = {
 		backgroundColor: '#FFF',
 		justifyContent: 'center',
 		alignItems: 'center',
-		marginTop: 30,
+		marginTop: 10,
 		padding: 10,
 		borderRadius: 20
 	},
@@ -188,7 +189,7 @@ const styles = {
 	footer: {
 		flexDirection: 'row',
 		justifyContent: 'center',
-		marginTop: 20,
+		marginTop: 10,
 		marginBottom: 10,
 		padding: 5
 	},

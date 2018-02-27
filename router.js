@@ -13,7 +13,7 @@ import Game from './src/components/Game';
 
 const RouterComponent = () => {
 	return (
-		<Router>
+		<Router sceneStyle={{ backgroundColor: '#F5F5F5' }}>
 			<Scene key='root' hideNavBar>
 				<Scene key='auth'>
 					<Scene key='login' component={Login} title='부자 되세요!' initial />

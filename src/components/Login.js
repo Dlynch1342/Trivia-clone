@@ -1,13 +1,30 @@
 // ABSOLUTE
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, ImageBackground, Dimensions } from 'react-native';
-import { FormLabel, FormInput, Button } from 'react-native-elements';
+import { Text, View, TextInput, Dimensions, Keyboard } from 'react-native';
+import { Button } from 'react-native-elements';
 import { connect } from 'react-redux';
+import { LinearGradient } from 'expo';
 
 // RELATIVE
-import * as actions from '../actions'; 
+import * as actions from '../actions';
 
 class Login extends Component {
+	constructor(props) {
+		super(props);
+		this.state = { keyboard: false }
+	}
+
+
+	componentWillMount() {
+		this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', () => this.setState({ keyboard: true }));
+		this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', () => this.setState({ keyboard: false }));
+	}
+
+	componentWillUnmount() {
+		this.keyboardDidShowListener.remove();
+		this.keyboardDidHideListener.remove();
+	}
+
 	onEmailInput = (text) => {
 		this.props.emailInput(text);
 	}
@@ -19,27 +36,34 @@ class Login extends Component {
 	onButtonPress = () => {
 		const { email, password } = this.props.login;
 		this.props.userLogin({ email, password });
+		Keyboard.dismiss;
 	}
-	
+
 	render() {
 		return (
-			<View>
+			<View style={[styles.card, this.state.keyboard ? { marginTop: height * 0.1 } : { marginTop: height * 0.4 }]}>
 				<View>
 					<View>
-						<FormLabel>EMAIL</FormLabel>
-						<FormInput
-							placeholder='Please enter your email'
+						<TextInput
+							style={styles.input}
+							placeholderTextColor='rgba(0,91,234,0.5)'
+							placeholder='Email'
+							underlineColorAndroid='transparent'
 							autoCapitalize='none'
 							autoCorrect={false}
 							returnKeyType='next'
 							value={this.props.email}
+							onSubmitEditing={event => this.refs.SecondInput.focus()}
 							onChangeText={this.onEmailInput}
 						/>
 					</View>
 					<View>
-						<FormLabel>PASSWORD</FormLabel>
-						<FormInput
-							placeholder='Please enter your password'
+						<TextInput
+							style={styles.input}
+							ref='SecondInput'
+							placeholderTextColor='rgba(0,91,234,0.5)'
+							placeholder='Password'
+							underlineColorAndroid='transparent'
 							secureTextEntry={true}
 							autoCapitalize='none'
 							autoCorrect={false}
@@ -49,15 +73,42 @@ class Login extends Component {
 						/>
 					</View>
 				</View>
-				<View style={{ marginTop: 20 }}>
+				<LinearGradient
+					start={{ x: 0.0, y: 0.5 }}
+					end={{ x: 1.0, y: 0.5 }}
+					colors={['#00c6fb', '#005bea']}
+					style={styles.button}
+				>
 					<Button
-						title='LOGIN'
-						backgroundColor='#03A9F4'
+						buttonStyle={{ backgroundColor: 'transparent' }}
 						onPress={this.onButtonPress}
+						title='LOGIN'
 					/>
-				</View>
+				</LinearGradient>
 			</View>
 		);
+	}
+}
+
+const { height, width } = Dimensions.get('window');
+const styles = {
+	card: {
+		width: (width * .8),
+		marginLeft: (width * .1),
+		justifyContent: 'center'
+	},
+	input: {
+		color: 'rgb(0,91,234)',
+		backgroundColor: 'rgba(0,198,251,0.1)',
+		fontSize: 15,
+		padding: 15,
+		paddingLeft: 30,
+		marginTop: 20,
+		borderRadius: 50
+	},
+	button: {
+		marginTop: 20,
+		borderRadius: 50
 	}
 }
 

@@ -1,8 +1,6 @@
-// ABSOLUTE
 import React, { Component } from 'react';
-import { Text, View } from 'react-native';
-// import { Button } from 'react-native-elements';
-import { connect } from 'react-redux';
+import { Text, View, TextInput } from 'react-native';
+import { connect } from  'react-redux';
 
 // RELATIVE
 import * as actions from '../actions';

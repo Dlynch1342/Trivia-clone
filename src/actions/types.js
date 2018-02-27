@@ -24,3 +24,11 @@ export const GOT_QUESTIONS = 'got_questions';
 export const USER_RESPONSE = 'user_response';
 export const PLAYER_WIN = 'player_win';
 export const PLAYER_LOSE = 'player_lose';
+export const GOT_WINNERS = 'got_winners';
+export const SAVED_LIFE = 'saved_life';
+export const TOTAL_CALC = 'total_calc';
+export const PLAYER_ELIMINATED = 'player_eliminated';
+export const TODAY_WINNERS = 'today_winners';
+export const EARNINGS_UPDATED = 'earnings_updated';
+
+

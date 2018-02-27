@@ -2,7 +2,7 @@
 import { EMAIL_INPUT, PASSWORD_INPUT, LOGIN_SUCCESS, LOGIN_FAIL } from '../actions/types';
 
 const INITIAL_STATE = {
-	email: 'come@me.bruh',
+	email: 'michael@top.com',
 	password: 'password',
 	user: null
 }

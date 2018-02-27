@@ -66,14 +66,22 @@ class Username extends Component {
 		.then(snap => {
 			var code = snap.exists();
 
-			if (code) {
+			if (code || rcode === '') {
 				this.props.usernameSave({ username }, data);
-
-				if (rcode === '') {
-				} else {
-					firebase.database().ref(`heart_list/${rcode}/${currentUser.uid}`).set(rcode);
-				}
-			} else {
+				// firebase.database().ref(`heart_list/${rcode}/${currentUser.uid}`).push(rcode);
+				const ref = firebase.database().ref(`heart_list/${rcode}/heartCount`)
+				ref.once('value', snap => {
+					console.log(snap.val(), 'deep in the fucking conditionals')
+					if(snap.val() >= 0) {
+						var count = snap.val() + 1
+					}
+					else {
+						var count = 0
+					}
+					firebase.database().ref(`heart_list/${rcode}/heartCount`).set(count)
+				})
+			} 
+			else {
 				this.setState({ codeNotConfirmed: 'Referral code not existed' })
 			}
 		})

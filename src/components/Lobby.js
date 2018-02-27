@@ -15,33 +15,29 @@ class Lobby extends Component {
         this.state = {
             userCount: 0,
             banner: null,
-            level: 1,
-            card: 'waiting'
+            level: 1
         }
     }
 
     componentWillMount() {
-        this.props.getQuestions()
-        //USER COUNT
-        const amOnline = firebase.database().ref(".info/connected");
-        const { currentUser } = firebase.auth();
-        const userRef = firebase.database().ref(`presence/players/${currentUser.uid}`);
-        amOnline.on("value", snap => {
-            if (snap.val()) {
-                userRef.onDisconnect().remove();
-                userRef.set(true);
-            }
-        });
-        const countRef = firebase.database().ref("presence");
-        countRef.child("players_count").on("value", snap => {
-            this.setState({ userCount: snap.val() });
-        })
-        //GAME COUNTDOWN
-        // setInterval(() => {
-        //     this.createCountdown()
-        // }, 1000)
-        
-		}
+			// this.props.calculateTotal()
+			// this.props.getWinners()
+			this.props.getQuestions()
+			//USER COUNT
+			const amOnline = firebase.database().ref(".info/connected");
+			const { currentUser } = firebase.auth();
+			const userRef = firebase.database().ref(`presence/players/${currentUser.uid}`);
+			amOnline.on("value", snap => {
+					if (snap.val()) {
+							userRef.onDisconnect().remove();
+							userRef.set(true);
+					}
+			});
+			const countRef = firebase.database().ref("presence");
+			countRef.child("players_count").on("value", snap => {
+					this.setState({ userCount: snap.val() });
+			})
+	}
  
     componentWillReceiveProps(nextProps) {
         this.setState({ banner: nextProps.lobby.banner })
@@ -73,13 +69,6 @@ const styles = {
         backgroundColor: "#ff0066",
         width: 100,
         height: 100
-    },
-    text: {
-        fontSize: 25,
-        color: '#f442e8',
-        alignSelf: 'center',
-        marginTop: 30,
-        fontFamily: "Copperplate"
     },
     total: {
         width: 100,

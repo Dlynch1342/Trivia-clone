@@ -13,12 +13,12 @@ import Router from './router';
 export default class App extends React.Component {  
 	componentWillMount() {
 		const config = {
-      apiKey: "AIzaSyDqYuLYEHSeiO0PrT4zPWornW7mHX8uP80",
-      authDomain: "trivia-1ec67.firebaseapp.com",
-      databaseURL: "https://trivia-1ec67.firebaseio.com",
-      projectId: "trivia-1ec67",
-      storageBucket: "trivia-1ec67.appspot.com",
-      messagingSenderId: "308224065203"
+      apiKey: "AIzaSyAmKL1Fo-uiiFfoMZf0FwNpi1yGSZ5pTqU",
+      authDomain: "trivia-3c84e.firebaseapp.com",
+      databaseURL: "https://trivia-3c84e.firebaseio.com",
+      projectId: "trivia-3c84e",
+      storageBucket: "trivia-3c84e.appspot.com",
+      messagingSenderId: "304765261822"
     };
     firebase.initializeApp(config);
 
